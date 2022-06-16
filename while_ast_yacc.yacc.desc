@@ -1,0 +1,1267 @@
+
+state 0:
+
+	Program : . PROGRAM Identifier DOUBLECOLON Block 
+
+	PROGRAM	shift 1
+
+	Program	goto 92
+
+	.	error
+
+
+state 1:
+
+	Program : PROGRAM . Identifier DOUBLECOLON Block 
+
+	ID	shift 3
+
+	Identifier	goto 2
+
+	.	error
+
+
+state 2:
+
+	Program : PROGRAM Identifier . DOUBLECOLON Block 
+
+	DOUBLECOLON	shift 4
+
+
+	.	error
+
+
+state 3:
+
+	Identifier : ID .  (reduce by rule 45)
+
+
+
+	.	reduce by rule 45
+
+
+state 4:
+
+	Program : PROGRAM Identifier DOUBLECOLON . Block 
+
+	VAR	shift 8
+
+	Block	goto 7
+	DeclarationSeq	goto 6
+	Declaration	goto 5
+
+	.	reduce by rule 3
+
+
+state 5:
+
+	DeclarationSeq : Declaration . DeclarationSeq 
+
+	VAR	shift 8
+
+	DeclarationSeq	goto 9
+	Declaration	goto 5
+
+	.	reduce by rule 3
+
+
+state 6:
+
+	Block : DeclarationSeq . CommandSeq 
+
+	CURLYLEFTBRACKET	shift 11
+
+	CommandSeq	goto 10
+
+	.	error
+
+
+state 7:
+
+	Program : PROGRAM Identifier DOUBLECOLON Block .  (reduce by rule 0)
+
+
+
+	.	reduce by rule 0
+
+
+state 8:
+
+	Declaration : VAR . VariableList COLON INT SEMICOLON 
+	Declaration : VAR . VariableList COLON BOOL SEMICOLON 
+
+	ID	shift 3
+
+	Identifier	goto 14
+	VariableList	goto 13
+	Variable	goto 12
+
+	.	error
+
+
+state 9:
+
+	DeclarationSeq : Declaration DeclarationSeq .  (reduce by rule 2)
+
+
+
+	.	reduce by rule 2
+
+
+state 10:
+
+	Block : DeclarationSeq CommandSeq .  (reduce by rule 1)
+
+
+
+	.	reduce by rule 1
+
+
+state 11:
+
+	CommandSeq : CURLYLEFTBRACKET . CmdSemi CURLYRIGHTBRACKET 
+
+	ID	shift 3
+	READ	shift 21
+	WRITE	shift 20
+	IF	shift 19
+	WHILE	shift 18
+
+	Identifier	goto 14
+	CmdSemi	goto 17
+	Command	goto 16
+	Variable	goto 15
+
+	.	error
+
+
+state 12:
+
+	VariableList : Variable .  (reduce by rule 6)
+	VariableList : Variable . COMMA VariableList 
+
+	COMMA	shift 22
+
+
+	.	reduce by rule 6
+
+
+state 13:
+
+	Declaration : VAR VariableList . COLON INT SEMICOLON 
+	Declaration : VAR VariableList . COLON BOOL SEMICOLON 
+
+	COLON	shift 23
+
+
+	.	error
+
+
+state 14:
+
+	Variable : Identifier .  (reduce by rule 44)
+
+
+
+	.	reduce by rule 44
+
+
+state 15:
+
+	Command : Variable . START Expression 
+
+	START	shift 24
+
+
+	.	error
+
+
+state 16:
+
+	CmdSemi : Command . SEMICOLON 
+	CmdSemi : Command . SEMICOLON CmdSemi 
+
+	SEMICOLON	shift 25
+
+
+	.	error
+
+
+state 17:
+
+	CommandSeq : CURLYLEFTBRACKET CmdSemi . CURLYRIGHTBRACKET 
+
+	CURLYRIGHTBRACKET	shift 26
+
+
+	.	error
+
+
+state 18:
+
+	Command : WHILE . Expression DO CommandSeq ENDWH 
+
+	ID	shift 3
+	NUM	shift 42
+	LEFTBRACKET	shift 41
+	TELDA	shift 40
+	NOT	shift 39
+	FALSE	shift 38
+	TRUE	shift 37
+	PLUS	shift 36
+
+	Identifier	goto 14
+	Expression	goto 35
+	IntExpression	goto 34
+	Term	goto 33
+	IntTerm	goto 32
+	Factor	goto 31
+	IntFactor	goto 30
+	Comparison	goto 29
+	Variable	goto 28
+	Numeral	goto 27
+
+	.	error
+
+
+state 19:
+
+	Command : IF . Expression THEN CommandSeq ELSE CommandSeq ENDIF 
+
+	ID	shift 3
+	NUM	shift 42
+	LEFTBRACKET	shift 41
+	TELDA	shift 40
+	NOT	shift 39
+	FALSE	shift 38
+	TRUE	shift 37
+	PLUS	shift 36
+
+	Identifier	goto 14
+	Expression	goto 43
+	IntExpression	goto 34
+	Term	goto 33
+	IntTerm	goto 32
+	Factor	goto 31
+	IntFactor	goto 30
+	Comparison	goto 29
+	Variable	goto 28
+	Numeral	goto 27
+
+	.	error
+
+
+state 20:
+
+	Command : WRITE . Expression 
+
+	ID	shift 3
+	NUM	shift 42
+	LEFTBRACKET	shift 41
+	TELDA	shift 40
+	NOT	shift 39
+	FALSE	shift 38
+	TRUE	shift 37
+	PLUS	shift 36
+
+	Identifier	goto 14
+	Expression	goto 44
+	IntExpression	goto 34
+	Term	goto 33
+	IntTerm	goto 32
+	Factor	goto 31
+	IntFactor	goto 30
+	Comparison	goto 29
+	Variable	goto 28
+	Numeral	goto 27
+
+	.	error
+
+
+state 21:
+
+	Command : READ . Variable 
+
+	ID	shift 3
+
+	Identifier	goto 14
+	Variable	goto 45
+
+	.	error
+
+
+state 22:
+
+	VariableList : Variable COMMA . VariableList 
+
+	ID	shift 3
+
+	Identifier	goto 14
+	VariableList	goto 46
+	Variable	goto 12
+
+	.	error
+
+
+state 23:
+
+	Declaration : VAR VariableList COLON . INT SEMICOLON 
+	Declaration : VAR VariableList COLON . BOOL SEMICOLON 
+
+	INT	shift 48
+	BOOL	shift 47
+
+
+	.	error
+
+
+state 24:
+
+	Command : Variable START . Expression 
+
+	ID	shift 3
+	NUM	shift 42
+	LEFTBRACKET	shift 41
+	TELDA	shift 40
+	NOT	shift 39
+	FALSE	shift 38
+	TRUE	shift 37
+	PLUS	shift 36
+
+	Identifier	goto 14
+	Expression	goto 49
+	IntExpression	goto 34
+	Term	goto 33
+	IntTerm	goto 32
+	Factor	goto 31
+	IntFactor	goto 30
+	Comparison	goto 29
+	Variable	goto 28
+	Numeral	goto 27
+
+	.	error
+
+
+state 25:
+
+	CmdSemi : Command SEMICOLON .  (reduce by rule 9)
+	CmdSemi : Command SEMICOLON . CmdSemi 
+
+	ID	shift 3
+	READ	shift 21
+	WRITE	shift 20
+	IF	shift 19
+	WHILE	shift 18
+
+	Identifier	goto 14
+	CmdSemi	goto 50
+	Command	goto 16
+	Variable	goto 15
+
+	.	reduce by rule 9
+
+
+state 26:
+
+	CommandSeq : CURLYLEFTBRACKET CmdSemi CURLYRIGHTBRACKET .  (reduce by rule 8)
+
+
+
+	.	reduce by rule 8
+
+
+state 27:
+
+	IntFactor : Numeral .  (reduce by rule 26)
+
+
+
+	.	reduce by rule 26
+
+
+state 28:
+
+	IntFactor : Variable .  (reduce by rule 27)
+
+
+
+	.	reduce by rule 27
+
+
+state 29:
+
+	Factor : Comparison .  (reduce by rule 20)
+
+
+
+	.	reduce by rule 20
+
+
+state 30:
+
+	IntTerm : IntFactor .  (reduce by rule 41)
+
+
+
+	.	reduce by rule 41
+
+
+state 31:
+
+	Term : Factor .  (reduce by rule 19)
+
+
+
+	.	reduce by rule 19
+
+
+state 32:
+
+	IntExpression : IntTerm .  (reduce by rule 37)
+	IntTerm : IntTerm . MOD IntFactor 
+	IntTerm : IntTerm . TIMES IntFactor 
+	IntTerm : IntTerm . DIV IntFactor 
+
+	MOD	shift 53
+	TIMES	shift 52
+	DIV	shift 51
+
+
+	.	reduce by rule 37
+
+
+state 33:
+
+	Expression : Term .  (reduce by rule 17)
+	Term : Term . AND Factor 
+
+	AND	shift 54
+
+
+	.	reduce by rule 17
+
+
+state 34:
+
+	IntExpression : IntExpression . PLUS IntTerm 
+	IntExpression : IntExpression . MINUS IntTerm 
+	Comparison : IntExpression . LESSTHAN IntExpression 
+	Comparison : IntExpression . LESSTHANEQUALS IntExpression 
+	Comparison : IntExpression . GREATERTHAN IntExpression 
+	Comparison : IntExpression . GREATERTHANEQUALS IntExpression 
+	Comparison : IntExpression . EQUALS IntExpression 
+	Comparison : IntExpression . NOTEQUALS IntExpression 
+	Comparison : IntExpression .  (reduce by rule 34)
+
+	LESSTHAN	shift 62
+	GREATERTHAN	shift 61
+	EQUALS	shift 60
+	LESSTHANEQUALS	shift 59
+	GREATERTHANEQUALS	shift 58
+	NOTEQUALS	shift 57
+	PLUS	shift 56
+	MINUS	shift 55
+
+
+	.	reduce by rule 34
+
+
+state 35:
+
+	Command : WHILE Expression . DO CommandSeq ENDWH 
+	Expression : Expression . OR Term 
+
+	DO	shift 64
+	OR	shift 63
+
+
+	.	error
+
+
+state 36:
+
+	Numeral : PLUS . NUM 
+
+	NUM	shift 65
+
+
+	.	error
+
+
+state 37:
+
+	IntFactor : TRUE .  (reduce by rule 24)
+
+
+
+	.	reduce by rule 24
+
+
+state 38:
+
+	IntFactor : FALSE .  (reduce by rule 25)
+
+
+
+	.	reduce by rule 25
+
+
+state 39:
+
+	Factor : NOT . Factor 
+
+	ID	shift 3
+	NUM	shift 42
+	LEFTBRACKET	shift 41
+	TELDA	shift 40
+	NOT	shift 39
+	FALSE	shift 38
+	TRUE	shift 37
+	PLUS	shift 36
+
+	Identifier	goto 14
+	IntExpression	goto 34
+	IntTerm	goto 32
+	Factor	goto 66
+	IntFactor	goto 30
+	Comparison	goto 29
+	Variable	goto 28
+	Numeral	goto 27
+
+	.	error
+
+
+state 40:
+
+	IntFactor : TELDA . IntFactor 
+
+	ID	shift 3
+	NUM	shift 42
+	LEFTBRACKET	shift 41
+	TELDA	shift 40
+	FALSE	shift 38
+	TRUE	shift 37
+	PLUS	shift 36
+
+	Identifier	goto 14
+	IntFactor	goto 67
+	Variable	goto 28
+	Numeral	goto 27
+
+	.	error
+
+
+state 41:
+
+	IntFactor : LEFTBRACKET . Expression RIGHTBRACKET 
+
+	ID	shift 3
+	NUM	shift 42
+	LEFTBRACKET	shift 41
+	TELDA	shift 40
+	NOT	shift 39
+	FALSE	shift 38
+	TRUE	shift 37
+	PLUS	shift 36
+
+	Identifier	goto 14
+	Expression	goto 68
+	IntExpression	goto 34
+	Term	goto 33
+	IntTerm	goto 32
+	Factor	goto 31
+	IntFactor	goto 30
+	Comparison	goto 29
+	Variable	goto 28
+	Numeral	goto 27
+
+	.	error
+
+
+state 42:
+
+	Numeral : NUM .  (reduce by rule 43)
+
+
+
+	.	reduce by rule 43
+
+
+state 43:
+
+	Command : IF Expression . THEN CommandSeq ELSE CommandSeq ENDIF 
+	Expression : Expression . OR Term 
+
+	THEN	shift 69
+	OR	shift 63
+
+
+	.	error
+
+
+state 44:
+
+	Command : WRITE Expression .  (reduce by rule 13)
+	Expression : Expression . OR Term 
+
+	OR	shift 63
+
+
+	.	reduce by rule 13
+
+
+state 45:
+
+	Command : READ Variable .  (reduce by rule 12)
+
+
+
+	.	reduce by rule 12
+
+
+state 46:
+
+	VariableList : Variable COMMA VariableList .  (reduce by rule 7)
+
+
+
+	.	reduce by rule 7
+
+
+state 47:
+
+	Declaration : VAR VariableList COLON BOOL . SEMICOLON 
+
+	SEMICOLON	shift 70
+
+
+	.	error
+
+
+state 48:
+
+	Declaration : VAR VariableList COLON INT . SEMICOLON 
+
+	SEMICOLON	shift 71
+
+
+	.	error
+
+
+state 49:
+
+	Command : Variable START Expression .  (reduce by rule 11)
+	Expression : Expression . OR Term 
+
+	OR	shift 63
+
+
+	.	reduce by rule 11
+
+
+state 50:
+
+	CmdSemi : Command SEMICOLON CmdSemi .  (reduce by rule 10)
+
+
+
+	.	reduce by rule 10
+
+
+state 51:
+
+	IntTerm : IntTerm DIV . IntFactor 
+
+	ID	shift 3
+	NUM	shift 42
+	LEFTBRACKET	shift 41
+	TELDA	shift 40
+	FALSE	shift 38
+	TRUE	shift 37
+	PLUS	shift 36
+
+	Identifier	goto 14
+	IntFactor	goto 72
+	Variable	goto 28
+	Numeral	goto 27
+
+	.	error
+
+
+state 52:
+
+	IntTerm : IntTerm TIMES . IntFactor 
+
+	ID	shift 3
+	NUM	shift 42
+	LEFTBRACKET	shift 41
+	TELDA	shift 40
+	FALSE	shift 38
+	TRUE	shift 37
+	PLUS	shift 36
+
+	Identifier	goto 14
+	IntFactor	goto 73
+	Variable	goto 28
+	Numeral	goto 27
+
+	.	error
+
+
+state 53:
+
+	IntTerm : IntTerm MOD . IntFactor 
+
+	ID	shift 3
+	NUM	shift 42
+	LEFTBRACKET	shift 41
+	TELDA	shift 40
+	FALSE	shift 38
+	TRUE	shift 37
+	PLUS	shift 36
+
+	Identifier	goto 14
+	IntFactor	goto 74
+	Variable	goto 28
+	Numeral	goto 27
+
+	.	error
+
+
+state 54:
+
+	Term : Term AND . Factor 
+
+	ID	shift 3
+	NUM	shift 42
+	LEFTBRACKET	shift 41
+	TELDA	shift 40
+	NOT	shift 39
+	FALSE	shift 38
+	TRUE	shift 37
+	PLUS	shift 36
+
+	Identifier	goto 14
+	IntExpression	goto 34
+	IntTerm	goto 32
+	Factor	goto 75
+	IntFactor	goto 30
+	Comparison	goto 29
+	Variable	goto 28
+	Numeral	goto 27
+
+	.	error
+
+
+state 55:
+
+	IntExpression : IntExpression MINUS . IntTerm 
+
+	ID	shift 3
+	NUM	shift 42
+	LEFTBRACKET	shift 41
+	TELDA	shift 40
+	FALSE	shift 38
+	TRUE	shift 37
+	PLUS	shift 36
+
+	Identifier	goto 14
+	IntTerm	goto 76
+	IntFactor	goto 30
+	Variable	goto 28
+	Numeral	goto 27
+
+	.	error
+
+
+state 56:
+
+	IntExpression : IntExpression PLUS . IntTerm 
+
+	ID	shift 3
+	NUM	shift 42
+	LEFTBRACKET	shift 41
+	TELDA	shift 40
+	FALSE	shift 38
+	TRUE	shift 37
+	PLUS	shift 36
+
+	Identifier	goto 14
+	IntTerm	goto 77
+	IntFactor	goto 30
+	Variable	goto 28
+	Numeral	goto 27
+
+	.	error
+
+
+state 57:
+
+	Comparison : IntExpression NOTEQUALS . IntExpression 
+
+	ID	shift 3
+	NUM	shift 42
+	LEFTBRACKET	shift 41
+	TELDA	shift 40
+	FALSE	shift 38
+	TRUE	shift 37
+	PLUS	shift 36
+
+	Identifier	goto 14
+	IntExpression	goto 78
+	IntTerm	goto 32
+	IntFactor	goto 30
+	Variable	goto 28
+	Numeral	goto 27
+
+	.	error
+
+
+state 58:
+
+	Comparison : IntExpression GREATERTHANEQUALS . IntExpression 
+
+	ID	shift 3
+	NUM	shift 42
+	LEFTBRACKET	shift 41
+	TELDA	shift 40
+	FALSE	shift 38
+	TRUE	shift 37
+	PLUS	shift 36
+
+	Identifier	goto 14
+	IntExpression	goto 79
+	IntTerm	goto 32
+	IntFactor	goto 30
+	Variable	goto 28
+	Numeral	goto 27
+
+	.	error
+
+
+state 59:
+
+	Comparison : IntExpression LESSTHANEQUALS . IntExpression 
+
+	ID	shift 3
+	NUM	shift 42
+	LEFTBRACKET	shift 41
+	TELDA	shift 40
+	FALSE	shift 38
+	TRUE	shift 37
+	PLUS	shift 36
+
+	Identifier	goto 14
+	IntExpression	goto 80
+	IntTerm	goto 32
+	IntFactor	goto 30
+	Variable	goto 28
+	Numeral	goto 27
+
+	.	error
+
+
+state 60:
+
+	Comparison : IntExpression EQUALS . IntExpression 
+
+	ID	shift 3
+	NUM	shift 42
+	LEFTBRACKET	shift 41
+	TELDA	shift 40
+	FALSE	shift 38
+	TRUE	shift 37
+	PLUS	shift 36
+
+	Identifier	goto 14
+	IntExpression	goto 81
+	IntTerm	goto 32
+	IntFactor	goto 30
+	Variable	goto 28
+	Numeral	goto 27
+
+	.	error
+
+
+state 61:
+
+	Comparison : IntExpression GREATERTHAN . IntExpression 
+
+	ID	shift 3
+	NUM	shift 42
+	LEFTBRACKET	shift 41
+	TELDA	shift 40
+	FALSE	shift 38
+	TRUE	shift 37
+	PLUS	shift 36
+
+	Identifier	goto 14
+	IntExpression	goto 82
+	IntTerm	goto 32
+	IntFactor	goto 30
+	Variable	goto 28
+	Numeral	goto 27
+
+	.	error
+
+
+state 62:
+
+	Comparison : IntExpression LESSTHAN . IntExpression 
+
+	ID	shift 3
+	NUM	shift 42
+	LEFTBRACKET	shift 41
+	TELDA	shift 40
+	FALSE	shift 38
+	TRUE	shift 37
+	PLUS	shift 36
+
+	Identifier	goto 14
+	IntExpression	goto 83
+	IntTerm	goto 32
+	IntFactor	goto 30
+	Variable	goto 28
+	Numeral	goto 27
+
+	.	error
+
+
+state 63:
+
+	Expression : Expression OR . Term 
+
+	ID	shift 3
+	NUM	shift 42
+	LEFTBRACKET	shift 41
+	TELDA	shift 40
+	NOT	shift 39
+	FALSE	shift 38
+	TRUE	shift 37
+	PLUS	shift 36
+
+	Identifier	goto 14
+	IntExpression	goto 34
+	Term	goto 84
+	IntTerm	goto 32
+	Factor	goto 31
+	IntFactor	goto 30
+	Comparison	goto 29
+	Variable	goto 28
+	Numeral	goto 27
+
+	.	error
+
+
+state 64:
+
+	Command : WHILE Expression DO . CommandSeq ENDWH 
+
+	CURLYLEFTBRACKET	shift 11
+
+	CommandSeq	goto 85
+
+	.	error
+
+
+state 65:
+
+	Numeral : PLUS NUM .  (reduce by rule 42)
+
+
+
+	.	reduce by rule 42
+
+
+state 66:
+
+	Factor : NOT Factor .  (reduce by rule 21)
+
+
+
+	.	reduce by rule 21
+
+
+state 67:
+
+	IntFactor : TELDA IntFactor .  (reduce by rule 23)
+
+
+
+	.	reduce by rule 23
+
+
+state 68:
+
+	Expression : Expression . OR Term 
+	IntFactor : LEFTBRACKET Expression . RIGHTBRACKET 
+
+	OR	shift 63
+	RIGHTBRACKET	shift 86
+
+
+	.	error
+
+
+state 69:
+
+	Command : IF Expression THEN . CommandSeq ELSE CommandSeq ENDIF 
+
+	CURLYLEFTBRACKET	shift 11
+
+	CommandSeq	goto 87
+
+	.	error
+
+
+state 70:
+
+	Declaration : VAR VariableList COLON BOOL SEMICOLON .  (reduce by rule 5)
+
+
+
+	.	reduce by rule 5
+
+
+state 71:
+
+	Declaration : VAR VariableList COLON INT SEMICOLON .  (reduce by rule 4)
+
+
+
+	.	reduce by rule 4
+
+
+state 72:
+
+	IntTerm : IntTerm DIV IntFactor .  (reduce by rule 40)
+
+
+
+	.	reduce by rule 40
+
+
+state 73:
+
+	IntTerm : IntTerm TIMES IntFactor .  (reduce by rule 39)
+
+
+
+	.	reduce by rule 39
+
+
+state 74:
+
+	IntTerm : IntTerm MOD IntFactor .  (reduce by rule 38)
+
+
+
+	.	reduce by rule 38
+
+
+state 75:
+
+	Term : Term AND Factor .  (reduce by rule 18)
+
+
+
+	.	reduce by rule 18
+
+
+state 76:
+
+	IntExpression : IntExpression MINUS IntTerm .  (reduce by rule 36)
+	IntTerm : IntTerm . MOD IntFactor 
+	IntTerm : IntTerm . TIMES IntFactor 
+	IntTerm : IntTerm . DIV IntFactor 
+
+	MOD	shift 53
+	TIMES	shift 52
+	DIV	shift 51
+
+
+	.	reduce by rule 36
+
+
+state 77:
+
+	IntExpression : IntExpression PLUS IntTerm .  (reduce by rule 35)
+	IntTerm : IntTerm . MOD IntFactor 
+	IntTerm : IntTerm . TIMES IntFactor 
+	IntTerm : IntTerm . DIV IntFactor 
+
+	MOD	shift 53
+	TIMES	shift 52
+	DIV	shift 51
+
+
+	.	reduce by rule 35
+
+
+state 78:
+
+	IntExpression : IntExpression . PLUS IntTerm 
+	IntExpression : IntExpression . MINUS IntTerm 
+	Comparison : IntExpression NOTEQUALS IntExpression .  (reduce by rule 33)
+
+	PLUS	shift 56
+	MINUS	shift 55
+
+
+	.	reduce by rule 33
+
+
+state 79:
+
+	IntExpression : IntExpression . PLUS IntTerm 
+	IntExpression : IntExpression . MINUS IntTerm 
+	Comparison : IntExpression GREATERTHANEQUALS IntExpression .  (reduce by rule 31)
+
+	PLUS	shift 56
+	MINUS	shift 55
+
+
+	.	reduce by rule 31
+
+
+state 80:
+
+	IntExpression : IntExpression . PLUS IntTerm 
+	IntExpression : IntExpression . MINUS IntTerm 
+	Comparison : IntExpression LESSTHANEQUALS IntExpression .  (reduce by rule 29)
+
+	PLUS	shift 56
+	MINUS	shift 55
+
+
+	.	reduce by rule 29
+
+
+state 81:
+
+	IntExpression : IntExpression . PLUS IntTerm 
+	IntExpression : IntExpression . MINUS IntTerm 
+	Comparison : IntExpression EQUALS IntExpression .  (reduce by rule 32)
+
+	PLUS	shift 56
+	MINUS	shift 55
+
+
+	.	reduce by rule 32
+
+
+state 82:
+
+	IntExpression : IntExpression . PLUS IntTerm 
+	IntExpression : IntExpression . MINUS IntTerm 
+	Comparison : IntExpression GREATERTHAN IntExpression .  (reduce by rule 30)
+
+	PLUS	shift 56
+	MINUS	shift 55
+
+
+	.	reduce by rule 30
+
+
+state 83:
+
+	IntExpression : IntExpression . PLUS IntTerm 
+	IntExpression : IntExpression . MINUS IntTerm 
+	Comparison : IntExpression LESSTHAN IntExpression .  (reduce by rule 28)
+
+	PLUS	shift 56
+	MINUS	shift 55
+
+
+	.	reduce by rule 28
+
+
+state 84:
+
+	Expression : Expression OR Term .  (reduce by rule 16)
+	Term : Term . AND Factor 
+
+	AND	shift 54
+
+
+	.	reduce by rule 16
+
+
+state 85:
+
+	Command : WHILE Expression DO CommandSeq . ENDWH 
+
+	ENDWH	shift 88
+
+
+	.	error
+
+
+state 86:
+
+	IntFactor : LEFTBRACKET Expression RIGHTBRACKET .  (reduce by rule 22)
+
+
+
+	.	reduce by rule 22
+
+
+state 87:
+
+	Command : IF Expression THEN CommandSeq . ELSE CommandSeq ENDIF 
+
+	ELSE	shift 89
+
+
+	.	error
+
+
+state 88:
+
+	Command : WHILE Expression DO CommandSeq ENDWH .  (reduce by rule 15)
+
+
+
+	.	reduce by rule 15
+
+
+state 89:
+
+	Command : IF Expression THEN CommandSeq ELSE . CommandSeq ENDIF 
+
+	CURLYLEFTBRACKET	shift 11
+
+	CommandSeq	goto 90
+
+	.	error
+
+
+state 90:
+
+	Command : IF Expression THEN CommandSeq ELSE CommandSeq . ENDIF 
+
+	ENDIF	shift 91
+
+
+	.	error
+
+
+state 91:
+
+	Command : IF Expression THEN CommandSeq ELSE CommandSeq ENDIF .  (reduce by rule 14)
+
+
+
+	.	reduce by rule 14
+
+
+state 92:
+
+
+	EOF	accept
+
+
+	.	error
+
+83 of 316 action table entries left after compaction
+164 goto table entries

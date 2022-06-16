@@ -1,0 +1,9 @@
+ACKNOWLEDGEMENT :
+
+Code and reference taken from following sources:
+http://rogerprice.org/ug/ug.pdf
+http://www.smlnj.org/doc/ML-Yacc/mlyacc002.html
+https://www.smlnj.org/doc/ML-Lex/manual.html 
+
+arrayToList Function is taken from:
+https://stackoverflow.com/questions/30201666/convert-array-to-list-in-sml

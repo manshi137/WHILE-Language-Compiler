@@ -1,0 +1,12 @@
+program test3 :: 
+    var a,b,c,d,e,f,g: int;
+{
+    a := 10;
+    b := 2+5;
+    c := 3*4;
+    d := 7/3;
+    e := 7%3;
+    if(e = 0) then {e := 7; } else{ e := 13; } endif;
+    while (a > b) do {a:= a-1;} endwh;
+
+}
